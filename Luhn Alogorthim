@@ -1,0 +1,55 @@
+<!--
+	Author: Effort S. Dweh
+	Career: Software Developer
+	Date: July 18, 2022
+ -->
+<!DOCTYPE html>
+<html>
+<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Check</title>
+	</head>
+	<body>
+		<form method="POST" action="<?php $_SERVER["PHP_SELF"];?>">
+			<label>Enter The Credit Card Number</label>
+			<input type="text" name="input">
+			<button type="submit">Check</button>
+		</form>
+
+		<?php 
+			if ($_SERVER["REQUEST_METHOD"] == "POST")
+			{
+				$inputValue = $_POST['input'];
+				$value = str_replace(' ', '', $inputValue);
+				
+
+				if(empty($value)){
+					echo 'Please Enter a Value';
+				}
+				else
+				{
+					checksum($value);
+
+				}
+				
+			}
+
+			function checksum ($card_number) {
+		    $card_number_checksum = '';
+
+		    foreach (str_split(strrev((string) $card_number)) as $i => $d) {
+		        $card_number_checksum .= $i %2 !== 0 ? $d * 2 : $d;
+		    }
+		    
+		    if(array_sum(str_split($card_number_checksum)) % 10 === 0){
+		      echo 'Valid Card Number';
+		    }
+		    else{
+		      echo 'Invalid Card Number';
+		    }
+		}
+
+		?>
+	</body>
+</html>
